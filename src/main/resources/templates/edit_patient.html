@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Patient Record</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script defer th:src="@{/js/script.js}"></script>
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-brand">
+        <div class="title">Hospital Management System</div>
+        <div class="subtitle" id="liveClock"></div>
+    </div>
+    <div class="navbar-links">
+        <ul class="navbar-nav">
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/patients}">Patients</a></li>
+        </ul>
+        <button id="darkModeToggle" class="dark-toggle-btn" type="button">Dark</button>
+    </div>
+</nav>
+
+<section class="form-section">
+    <div class="form-card">
+        <div class="form-header">
+            <h2><span>🔄</span> Edit Patient Record</h2>
+        </div>
+
+        <form th:action="@{/patients/{id}(id=${patient.id})}" th:object="${patient}" method="post" id="patientForm">
+            <!-- Important: Hidden ID field for updates -->
+            <input type="hidden" th:field="*{id}">
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" th:field="*{firstName}" class="form-control-modern" 
+                           th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'" required>
+                    <div class="error-text" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" th:field="*{lastName}" class="form-control-modern" 
+                           th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" required>
+                    <div class="error-text" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Age</label>
+                    <input type="number" th:field="*{age}" class="form-control-modern" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Gender</label>
+                    <select th:field="*{gender}" class="form-control-modern" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Blood Group</label>
+                    <input type="text" th:field="*{bloodGroup}" class="form-control-modern" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" th:field="*{phoneNumber}" class="form-control-modern" 
+                           th:classappend="${#fields.hasErrors('phoneNumber')} ? 'is-invalid'"
+                           pattern="[0-9]{10}" maxlength="10" required
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    <div class="error-text" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" th:field="*{email}" class="form-control-modern" 
+                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" required>
+                    <div class="error-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Assigned Doctor</label>
+                    <input type="text" th:field="*{doctorName}" class="form-control-modern" required>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Disease/Condition</label>
+                    <select th:field="*{disease}" id="diseaseSelect" class="form-control-modern" required onchange="toggleOtherDisease()">
+                        <option value="Fever">Fever</option>
+                        <option value="Diabetes">Diabetes</option>
+                        <option value="Asthma">Asthma</option>
+                        <option value="Heart Disease">Heart Disease</option>
+                        <option value="Viral Infection">Viral Infection</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group full-width" id="otherDiseaseGroup" style="display: none;">
+                    <label class="form-label">Specify Other Condition</label>
+                    <input type="text" id="otherDiseaseInput" class="form-control-modern" placeholder="Enter custom disease name">
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Home Address</label>
+                    <input type="text" th:field="*{address}" class="form-control-modern" required>
+                </div>
+            </div>
+
+            <div class="hero-buttons mt-3">
+                <button type="submit" class="btn btn-primary">Update Record</button>
+                <a th:href="@{/patients}" class="btn btn-outline" style="color: var(--primary-color); border-color: var(--primary-color);">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

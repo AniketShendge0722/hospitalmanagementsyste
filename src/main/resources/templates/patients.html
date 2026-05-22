@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script defer th:src="@{/js/script.js}"></script>
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-brand">
+        <div class="title">Hospital Management System</div>
+        <div class="subtitle" id="liveClock"></div>
+    </div>
+
+    <div class="navbar-links">
+        <ul class="navbar-nav">
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/patients}">Patients</a></li>
+            <li><a th:href="@{/patients/new}">Add Patient</a></li>
+        </ul>
+
+        <button id="darkModeToggle" class="dark-toggle-btn" type="button">Dark</button>
+    </div>
+</nav>
+
+    <div class="container my-4">
+        <div id="successMessage" class="alert alert-success" style="display:none;"></div>
+
+        <div class="dashboard-header">
+            <h1>Patient List</h1>
+            <div class="dashboard-actions">
+                <a th:href="@{/patients/new}" class="btn btn-primary">Add New Patient</a>
+                <div class="search-bar">
+                    <input type="text" id="patientSearch" placeholder="Search by name, disease or doctor...">
+                </div>
+            </div>
+        </div>
+
+        <div class="total-patients-card">
+            <h3>Total Patients: <span id="totalPatientsCount">0</span></h3>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Disease</th>
+                    <th>Doctor</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="patientTableBody">
+            <tr th:each="patient : ${patients}">
+
+                <td th:text="${patient.id}"></td>
+
+                <td th:text="${patient.firstName + ' ' + patient.lastName}"></td>
+
+                <td th:text="${patient.age}"></td>
+
+                <td th:text="${patient.disease}"></td>
+
+                <td th:text="${patient.doctorName}"></td>
+
+                <td>
+                    <a th:href="@{/patients/edit/{id}(id=${patient.id})}"
+                       class="btn btn-info btn-sm">
+                        Edit
+                    </a>
+
+                    <a th:href="@{/patients/delete/{id}(id=${patient.id})}"
+                       class="btn btn-danger btn-sm delete-btn">
+                        Delete
+                    </a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 Hospital Management System</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

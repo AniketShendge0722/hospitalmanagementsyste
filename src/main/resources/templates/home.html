@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script defer th:src="@{/js/script.js}"></script>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="navbar-brand">
+        <div class="title">Hospital Management System</div>
+        <div class="subtitle" id="liveClock"></div>
+    </div>
+
+    <div class="navbar-links">
+        <ul class="navbar-nav">
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/patients}">Patients</a></li>
+            <li><a th:href="@{/patients/new}">Add Patient</a></li>
+        </ul>
+
+        <button id="darkModeToggle" class="dark-toggle-btn" type="button">Dark</button>
+    </div>
+</nav>
+
+<!-- Hero (full-screen background + overlay) -->
+<section class="hero-section">
+    <img src="/images/hospital.jpg" alt="Hospital Background" class="hero-image"/>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1 class="hero-title">
+            Hospital Management
+            <span class="hero-title-accent">System</span>
+        </h1>
+
+        <p class="hero-text">
+            Manage patients efficiently with a clean, responsive dashboard powered by
+            Spring Boot + Thymeleaf + MySQL.
+        </p>
+
+        <div class="hero-buttons">
+            <a th:href="@{/patients}" class="btn btn-primary btn-custom">View Patients</a>
+            <a th:href="@{/patients/new}" class="btn btn-outline btn-custom">Add Patient</a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-card">
+                <div class="stat-value" th:text="${totalPatients}">0</div>
+                <div class="stat-label">Total Patients</div>
+            </div>
+            <div class="stat-card stat-card-accent">
+                <div class="stat-value">12+</div>
+                <div class="stat-label">Operational</div>
+            </div>
+            <div class="stat-card stat-card-warn">
+                <div class="stat-value">Secure</div>
+                <div class="stat-label">Structured MVC</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dashboard cards -->
+<section class="dashboard-section">
+    <div class="cards-grid">
+        <div class="dashboard-card">
+            <div class="card-icon">🩺</div>
+            <h3>Patient Management</h3>
+            <p>Search, update and delete patient records with a professional UI.</p>
+            <a th:href="@{/patients}" class="card-link">Go to Patients</a>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-icon">👨‍⚕️</div>
+            <h3>Doctor Directory</h3>
+            <p>Access specialized medical staff profiles and availability status.</p>
+            <a href="#" class="card-link">View Doctors</a>
+        </div>
+
+        <div class="dashboard-card card-blue">
+            <div class="card-icon">📅</div>
+            <h3>Appointments</h3>
+            <p>Schedule and manage patient visits and consultation timings.</p>
+            <a href="#" class="card-link">Manage Schedule</a>
+        </div>
+
+        <div class="dashboard-card card-yellow">
+            <div class="card-icon">🚨</div>
+            <h3>Emergency Support</h3>
+            <p>Immediate access to critical care data and emergency contacts.</p>
+            <a href="#" class="card-link">Emergency Protocols</a>
+        </div>
+    </div>
+</section>
+
+<!-- Success toast placeholder (optional) -->
+<div class="success-message" id="successMessage"
+     th:if="${message != null}"
+     th:text="${message}"
+     data-timeout="3500"></div>
+
+<footer class="footer">
+    <div class="container text-center">
+        <p>&copy; 2026 Hospital Management System | Providing Excellence in Care</p>
+    </div>
+</footer>
+
+</body>
+</html>

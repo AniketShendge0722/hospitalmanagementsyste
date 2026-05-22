@@ -1,0 +1,187 @@
+body{
+    margin:0;
+    padding:0;
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+}
+
+/* Navbar */
+
+.navbar{
+    background:#0d6efd;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 50px;
+}
+
+.navbar-brand{
+    color:white;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.navbar-links{
+    display:flex;
+    gap:20px;
+}
+
+.navbar-links a{
+    color:white;
+    text-decoration:none;
+    font-size:18px;
+}
+
+.navbar-links a:hover{
+    color:yellow;
+}
+
+/* Hero Section */
+
+.hero-section{
+    position:relative;
+    height:100vh;
+    overflow:hidden;
+}
+
+.hero-image{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.hero-overlay{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+}
+
+.hero-content{
+    position:absolute;
+    top:50%;
+    left:7%;
+    transform:translateY(-50%);
+    color:white;
+}
+
+.hero-title{
+    font-size:70px;
+    color:#ffc107;
+    margin-bottom:20px;
+}
+
+.hero-text{
+    font-size:24px;
+    width:700px;
+    line-height:1.7;
+}
+
+.hero-buttons{
+    margin-top:30px;
+    display:flex;
+    gap:20px;
+}
+
+.btn-custom{
+    padding:14px 30px;
+    font-size:20px;
+    border-radius:10px;
+}
+
+/* Table */
+
+.container-table{
+    width:90%;
+    margin:120px auto;
+}
+
+.table-title{
+    text-align:center;
+    margin-bottom:30px;
+    color:#0d6efd;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#0d6efd;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f1f1f1;
+}
+
+.add-btn{
+    background:#198754;
+    color:white;
+    padding:12px 20px;
+    text-decoration:none;
+    border-radius:8px;
+}
+
+.edit-btn{
+    background:#0dcaf0;
+    color:white;
+    padding:8px 16px;
+    text-decoration:none;
+    border-radius:6px;
+}
+
+.delete-btn{
+    background:#dc3545;
+    color:white;
+    padding:8px 16px;
+    text-decoration:none;
+    border-radius:6px;
+}
+
+/* Forms */
+
+.form-container{
+    width:500px;
+    margin:100px auto;
+    background:white;
+    padding:40px;
+    border-radius:10px;
+}
+
+.form-container h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+input{
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    background:#0d6efd;
+    color:white;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+}
