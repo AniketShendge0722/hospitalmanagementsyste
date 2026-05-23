@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Appointment</title>
+    <!-- Assume Bootstrap CSS is linked here or in a common layout fragment -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Link to your existing external CSS file -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container-fluid {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: bold;
+            color: #343a40;
+            padding: 1.25rem 1.5rem;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+        .btn-group {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Assuming a common header/navbar fragment if available -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Hospital HMS</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/doctors}">Doctors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/patients}">Patients</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/appointments}">Appointments <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Edit Appointment</h2>
+            <a th:href="@{/appointments}" class="btn btn-secondary">Back to Appointments</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Appointment Details
+            </div>
+            <div class="card-body">
+                <form th:action="@{/appointments/update/{id}(id=${appointment.appointmentId})}" th:object="${appointment}" method="post">
+                    <!-- Hidden field for ID -->
+                    <input type="hidden" th:field="*{appointmentId}" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="patient">Patient</label>
+                                <select class="form-control" id="patient" th:field="*{patientName}" required>
+                                    <option value="">Select Patient</option>
+                                    <option th:each="patient : ${patients}"
+                                            th:value="${patient.firstName + ' ' + patient.lastName}"
+                                            th:text="${patient.firstName + ' ' + patient.lastName}"
+                                            th:selected="${(patient.firstName + ' ' + patient.lastName) == appointment.patientName}">Patient Name</option>
+                                </select>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('patientName')}" th:errors="*{patientName}">
+                                    Patient is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="doctor">Doctor</label>
+                                <select class="form-control" id="doctor" th:field="*{doctorName}" required>
+                                    <option value="">Select Doctor</option>
+                                    <option th:each="doctor : ${doctors}"
+                                            th:value="${doctor.doctorName}"
+                                            th:text="${doctor.doctorName}"
+                                            th:selected="${doctor.doctorName == appointment.doctorName}">Doctor Name</option>
+                                </select>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('doctorName')}" th:errors="*{doctorName}">
+                                    Doctor is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="appointmentDate">Appointment Date</label>
+                                <input type="date" class="form-control" id="appointmentDate" th:field="*{appointmentDate}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('appointmentDate')}" th:errors="*{appointmentDate}">
+                                    Appointment Date is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="appointmentTime">Appointment Time</label>
+                                <input type="time" class="form-control" id="appointmentTime" th:field="*{timeSlot}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('timeSlot')}" th:errors="*{timeSlot}">
+                                    Appointment Time is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="symptomsNotes">Symptoms / Notes</label>
+                        <textarea class="form-control" id="symptomsNotes" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" th:field="*{status}" required>
+                            <option value="">Select Status</option>
+                            <option value="PENDING" th:selected="${appointment.status == 'PENDING'}">Pending</option>
+                            <option value="CONFIRMED" th:selected="${appointment.status == 'CONFIRMED'}">Confirmed</option>
+                            <option value="CANCELLED" th:selected="${appointment.status == 'CANCELLED'}">Cancelled</option>
+                            <option value="COMPLETED" th:selected="${appointment.status == 'COMPLETED'}">Completed</option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('status')}" th:errors="*{status}">
+                            Status is required
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-success mr-2">Update Appointment</button>
+                        <a th:href="@{/appointments}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assume Bootstrap JS and your external JS are linked here or in a common layout fragment -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Link to your existing external JS file -->
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

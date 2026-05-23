@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* Custom styles for appointments list */
+        body {
+            background-color: #f8f9fa;
+        }
+        .container-fluid {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: bold;
+            color: #343a40;
+            padding: 1.25rem 1.5rem;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .table thead th {
+            background-color: #e9ecef;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .table tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+        .btn-action {
+            margin-right: 5px;
+        }
+        .badge-status {
+            padding: 0.5em 0.75em;
+            border-radius: 0.5rem;
+            font-weight: 600;
+        }
+        .badge-pending { background-color: #ffc107; color: #343a40; }
+        .badge-confirmed { background-color: #28a745; color: #ffffff; }
+        .badge-cancelled { background-color: #dc3545; color: #ffffff; }
+        .badge-completed { background-color: #6c757d; color: #ffffff; }
+        .empty-state {
+            text-align: center;
+            padding: 50px 0;
+            color: #6c757d;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+    </style>
+</head>
+<body>
+     <!-- Navigation Bar -->
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+         <a class="navbar-brand" href="/">
+             <i class="fas fa-hospital"></i> HMS
+         </a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarNav">
+             <ul class="navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="/">
+                         <i class="fas fa-home"></i> Home
+                     </a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="/patients">
+                         <i class="fas fa-users"></i> Patients
+                     </a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="/doctors">
+                         <i class="fas fa-user-md"></i> Doctors
+                     </a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="/appointments">
+                         <i class="fas fa-calendar-check"></i> Appointments
+                     </a>
+                 </li>
+             </ul>
+         </div>
+     </nav>
+
+    <div class="container-fluid">
+         <div class="d-flex justify-content-between align-items-center mb-4">
+             <h2 class="mb-0">Appointment Management</h2>
+             <div>
+                 <a href="/" class="btn btn-secondary mr-2">
+                     <i class="fas fa-arrow-left"></i> Back to Dashboard
+                 </a>
+                 <a href="/addAppointment" class="btn btn-primary">
+                     <i class="fas fa-plus"></i> Add New Appointment
+                 </a>
+             </div>
+         </div>
+
+        <div class="card">
+            <div class="card-header">
+                Appointment List
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6 offset-md-6">
+                        <form th:action="@{/appointments}" method="get" class="form-inline justify-content-end">
+                            <input type="text" name="keyword" class="form-control mr-sm-2" placeholder="Search appointments..." th:value="${keyword}">
+                            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div th:if="${#lists.isEmpty(appointments)}" class="empty-state">
+                    <i class="fas fa-calendar-times"></i>
+                    <p>No appointments found. Click "Add New Appointment" to create one.</p>
+                </div>
+
+                <div th:unless="${#lists.isEmpty(appointments)}" class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient Name</th>
+                                <th>Doctor Name</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="appointment : ${appointments}">
+                                <td th:text="${appointment.appointmentId}">1</td>
+                                <td th:text="${appointment.patientName}">John Doe</td>
+                                <td th:text="${appointment.doctorName}">Dr. Smith</td>
+                                <td th:text="${appointment.appointmentDate}">2023-10-26</td>
+                                <td th:text="${appointment.timeSlot}">10:00 AM</td>
+                                <td>
+                                    <span th:classappend="${appointment.status == 'PENDING' ? 'badge-pending' :
+                                                          (appointment.status == 'CONFIRMED' ? 'badge-confirmed' :
+                                                          (appointment.status == 'CANCELLED' ? 'badge-cancelled' :
+                                                          (appointment.status == 'COMPLETED' ? 'badge-completed' : '')))}"
+                                          class="badge badge-status"
+                                          th:text="${appointment.status}">PENDING</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/appointments/edit/{id}(id=${appointment.appointmentId})}" class="btn btn-info btn-sm btn-action">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a th:href="@{/appointments/delete/{id}(id=${appointment.appointmentId})}" class="btn btn-danger btn-sm btn-action"
+                                       onclick="return confirm('Are you sure you want to delete this appointment?');">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Scripts -->
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <script th:src="@{/js/script.js}"></script>
+ </body>
+ </html>

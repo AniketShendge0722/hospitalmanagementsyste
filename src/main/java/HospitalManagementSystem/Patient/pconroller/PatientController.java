@@ -33,7 +33,7 @@ public class PatientController {
     }
 
     // Open Add Patient Form
-    @GetMapping("/patients/new")
+    @GetMapping("/addPatient")
     public String createPatientForm(Model model) {
 
         Patient patient = new Patient();

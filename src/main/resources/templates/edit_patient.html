@@ -10,6 +10,8 @@
 <body>
 <nav class="navbar">
     <div class="navbar-brand">
+        <button onclick="history.back()" class="btn btn-secondary mb-3">Go Back</button>
+
         <div class="title">Hospital Management System</div>
         <div class="subtitle" id="liveClock"></div>
     </div>
@@ -30,7 +32,7 @@
 
         <form th:action="@{/patients/{id}(id=${patient.id})}" th:object="${patient}" method="post" id="patientForm">
             <!-- Important: Hidden ID field for updates -->
-            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{appointment.id}">
             
             <div class="form-grid">
                 <div class="form-group">

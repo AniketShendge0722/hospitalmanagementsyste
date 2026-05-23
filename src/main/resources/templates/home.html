@@ -1,116 +1,204 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Dashboard Card Styling */
+        .dashboard-card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
 
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script defer th:src="@{/js/script.js}"></script>
+        .dashboard-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+
+        .dashboard-card.patient-card .card-icon {
+            color: #28a745;
+        }
+
+        .dashboard-card.doctor-card .card-icon {
+            color: #007bff;
+        }
+
+        .dashboard-card.appointment-card .card-icon {
+            color: #ffc107;
+        }
+
+        .dashboard-card .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-card .card-text {
+            color: #666;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .dashboard-card .btn-group-vertical {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dashboard-card .btn {
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .dashboard-card .btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .dashboard-card {
+                margin-bottom: 20px;
+            }
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        h1 {
+            color: #333;
+            font-weight: 700;
+        }
+    </style>
 </head>
-
 <body>
-
-<nav class="navbar">
-    <div class="navbar-brand">
-        <div class="title">Hospital Management System</div>
-        <div class="subtitle" id="liveClock"></div>
-    </div>
-
-    <div class="navbar-links">
-        <ul class="navbar-nav">
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/patients}">Patients</a></li>
-            <li><a th:href="@{/patients/new}">Add Patient</a></li>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">
+        <i class="fas fa-hospital"></i> HMS
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/patients">
+                    <i class="fas fa-users"></i> Patients
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/doctors">
+                    <i class="fas fa-user-md"></i> Doctors
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/appointments">
+                    <i class="fas fa-calendar-check"></i> Appointments
+                </a>
+            </li>
         </ul>
-
-        <button id="darkModeToggle" class="dark-toggle-btn" type="button">Dark</button>
     </div>
 </nav>
 
-<!-- Hero (full-screen background + overlay) -->
-<section class="hero-section">
-    <img src="/images/hospital.jpg" alt="Hospital Background" class="hero-image"/>
-    <div class="hero-overlay"></div>
+<!-- Main Container -->
+<div class="container mt-5">
+    <h1 class="mb-5">
+        <i class="fas fa-hospital-user"></i> Welcome to Hospital Management System
+    </h1>
 
-    <div class="hero-content">
-        <h1 class="hero-title">
-            Hospital Management
-            <span class="hero-title-accent">System</span>
-        </h1>
-
-        <p class="hero-text">
-            Manage patients efficiently with a clean, responsive dashboard powered by
-            Spring Boot + Thymeleaf + MySQL.
-        </p>
-
-        <div class="hero-buttons">
-            <a th:href="@{/patients}" class="btn btn-primary btn-custom">View Patients</a>
-            <a th:href="@{/patients/new}" class="btn btn-outline btn-custom">Add Patient</a>
+    <!-- Dashboard Cards Grid -->
+    <div class="row">
+        <!-- Patient Management Card -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card dashboard-card patient-card">
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h5 class="card-title">Patient Management</h5>
+                    <p class="card-text">Manage patient records, view details, and add new patients to the system.</p>
+                    <div class="btn-group-vertical" role="group">
+                        <a href="/patients" class="btn btn-primary">
+                            <i class="fas fa-list"></i> View Patients
+                        </a>
+                        <a href="/addPatient" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Add Patient
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="hero-stats">
-            <div class="stat-card">
-                <div class="stat-value" th:text="${totalPatients}">0</div>
-                <div class="stat-label">Total Patients</div>
+        <!-- Doctor Management Card -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card dashboard-card doctor-card">
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h5 class="card-title">Doctor Management</h5>
+                    <p class="card-text">Manage doctor records, view details, and add new doctors to the system.</p>
+                    <div class="btn-group-vertical" role="group">
+                        <a href="/doctors" class="btn btn-primary">
+                            <i class="fas fa-list"></i> View Doctors
+                        </a>
+                        <a href="/addDoctor" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Add Doctor
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="stat-card stat-card-accent">
-                <div class="stat-value">12+</div>
-                <div class="stat-label">Operational</div>
-            </div>
-            <div class="stat-card stat-card-warn">
-                <div class="stat-value">Secure</div>
-                <div class="stat-label">Structured MVC</div>
+        </div>
+
+        <!-- Appointment Management Card -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card dashboard-card appointment-card">
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h5 class="card-title">Appointment Management</h5>
+                    <p class="card-text">Manage patient appointments and schedules efficiently.</p>
+                    <div class="btn-group-vertical" role="group">
+                        <a href="/appointments" class="btn btn-warning">
+                            <i class="fas fa-list"></i> View Appointments
+                        </a>
+                        <a href="/addAppointment" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Create Appointment
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
-<!-- Dashboard cards -->
-<section class="dashboard-section">
-    <div class="cards-grid">
-        <div class="dashboard-card">
-            <div class="card-icon">🩺</div>
-            <h3>Patient Management</h3>
-            <p>Search, update and delete patient records with a professional UI.</p>
-            <a th:href="@{/patients}" class="card-link">Go to Patients</a>
-        </div>
-
-        <div class="dashboard-card">
-            <div class="card-icon">👨‍⚕️</div>
-            <h3>Doctor Directory</h3>
-            <p>Access specialized medical staff profiles and availability status.</p>
-            <a href="#" class="card-link">View Doctors</a>
-        </div>
-
-        <div class="dashboard-card card-blue">
-            <div class="card-icon">📅</div>
-            <h3>Appointments</h3>
-            <p>Schedule and manage patient visits and consultation timings.</p>
-            <a href="#" class="card-link">Manage Schedule</a>
-        </div>
-
-        <div class="dashboard-card card-yellow">
-            <div class="card-icon">🚨</div>
-            <h3>Emergency Support</h3>
-            <p>Immediate access to critical care data and emergency contacts.</p>
-            <a href="#" class="card-link">Emergency Protocols</a>
-        </div>
-    </div>
-</section>
-
-<!-- Success toast placeholder (optional) -->
-<div class="success-message" id="successMessage"
-     th:if="${message != null}"
-     th:text="${message}"
-     data-timeout="3500"></div>
-
-<footer class="footer">
-    <div class="container text-center">
-        <p>&copy; 2026 Hospital Management System | Providing Excellence in Care</p>
-    </div>
-</footer>
-
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
