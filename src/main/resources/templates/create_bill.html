@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate New Bill</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-hospital"></i> HMS
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/patients">
+                        <i class="fas fa-users"></i> Patients
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/doctors">
+                        <i class="fas fa-user-md"></i> Doctors
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/appointments">
+                        <i class="fas fa-calendar-check"></i> Appointments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/billing">
+                        <i class="fas fa-file-invoice-dollar"></i> Billing
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container mt-5">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">
+                <i class="fas fa-file-invoice-dollar"></i> Generate New Bill
+            </h2>
+            <a href="/billing" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Bills
+            </a>
+        </div>
+
+        <!-- Bill Form Card -->
+        <div class="card billing-form-card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-pen-to-square"></i> Bill Information
+                </h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/billing}" th:object="${billing}" method="post">
+                    <!-- Patient Dropdown -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="patientName">
+                                <i class="fas fa-user"></i> Patient
+                            </label>
+                            <select class="form-control form-control-modern" id="patientName" th:field="*{patientName}" required>
+                                <option value="">-- Select Patient --</option>
+                                <option th:each="patient : ${patients}"
+                                        th:value="${patient.firstName + ' ' + patient.lastName}"
+                                        th:text="${patient.firstName + ' ' + patient.lastName}">
+                                </option>
+                            </select>
+                            <div class="error-text" th:if="${#fields.hasErrors('patientName')}" th:errors="*{patientName}">
+                                Patient is required
+                            </div>
+                        </div>
+
+                        <!-- Doctor Dropdown -->
+                        <div class="form-group col-md-6">
+                            <label for="doctorName">
+                                <i class="fas fa-user-md"></i> Doctor
+                            </label>
+                            <select class="form-control form-control-modern" id="doctorName" th:field="*{doctorName}" required>
+                                <option value="">-- Select Doctor --</option>
+                                <option th:each="doctor : ${doctors}"
+                                        th:value="${doctor.doctorName}"
+                                        th:text="${doctor.doctorName}">
+                                </option>
+                            </select>
+                            <div class="error-text" th:if="${#fields.hasErrors('doctorName')}" th:errors="*{doctorName}">
+                                Doctor is required
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Billing Date -->
+                    <div class="form-group">
+                        <label for="billingDate">
+                            <i class="fas fa-calendar"></i> Billing Date
+                        </label>
+                        <input type="date" class="form-control form-control-modern" id="billingDate" th:field="*{billingDate}" required>
+                        <div class="error-text" th:if="${#fields.hasErrors('billingDate')}" th:errors="*{billingDate}">
+                            Billing Date is required
+                        </div>
+                    </div>
+
+                    <!-- Charges Section -->
+                    <div class="charges-section">
+                        <h5 class="mb-3">
+                            <i class="fas fa-receipt"></i> Charges
+                        </h5>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="doctorFees">
+                                    <i class="fas fa-stethoscope"></i> Doctor Fees (₹)
+                                </label>
+                                <input type="number" class="form-control form-control-modern" id="doctorFees" th:field="*{doctorFees}" step="0.01" min="0" required>
+                                <div class="error-text" th:if="${#fields.hasErrors('doctorFees')}" th:errors="*{doctorFees}">
+                                    Doctor Fees is required
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="medicineCharges">
+                                    <i class="fas fa-pills"></i> Medicine Charges (₹)
+                                </label>
+                                <input type="number" class="form-control form-control-modern" id="medicineCharges" th:field="*{medicineCharges}" step="0.01" min="0" required>
+                                <div class="error-text" th:if="${#fields.hasErrors('medicineCharges')}" th:errors="*{medicineCharges}">
+                                    Medicine Charges is required
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="roomCharges">
+                                    <i class="fas fa-bed"></i> Room Charges (₹)
+                                </label>
+                                <input type="number" class="form-control form-control-modern" id="roomCharges" th:field="*{roomCharges}" step="0.01" min="0" required>
+                                <div class="error-text" th:if="${#fields.hasErrors('roomCharges')}" th:errors="*{roomCharges}">
+                                    Room Charges is required
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="totalAmount">
+                                <i class="fas fa-calculator"></i> Total Amount (₹)
+                            </label>
+                            <input type="number" class="form-control form-control-modern" id="totalAmount" th:field="*{totalAmount}" step="0.01" min="0" required readonly>
+                            <small class="form-text text-muted">Auto-calculated: Doctor Fees + Medicine Charges + Room Charges</small>
+                            <div class="error-text" th:if="${#fields.hasErrors('totalAmount')}" th:errors="*{totalAmount}">
+                                Total Amount is required
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Status -->
+                    <div class="form-group">
+                        <label for="paymentStatus">
+                            <i class="fas fa-money-bill-wave"></i> Payment Status
+                        </label>
+                        <select class="form-control form-control-modern" id="paymentStatus" th:field="*{paymentStatus}" required>
+                            <option value="">-- Select Payment Status --</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="PAID">Paid</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                        <div class="error-text" th:if="${#fields.hasErrors('paymentStatus')}" th:errors="*{paymentStatus}">
+                            Payment Status is required
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-button-group mt-4">
+                        <button type="submit" class="btn btn-success mr-2">
+                            <i class="fas fa-save"></i> Generate Bill
+                        </button>
+                        <a href="/billing" class="btn btn-warning mr-2">
+                            <i class="fas fa-redo"></i> Reset
+                        </a>
+                        <a href="/billing" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Auto-calculate total amount
+        document.getElementById('doctorFees').addEventListener('input', calculateTotal);
+        document.getElementById('medicineCharges').addEventListener('input', calculateTotal);
+        document.getElementById('roomCharges').addEventListener('input', calculateTotal);
+
+        function calculateTotal() {
+            const doctorFees = parseFloat(document.getElementById('doctorFees').value) || 0;
+            const medicineCharges = parseFloat(document.getElementById('medicineCharges').value) || 0;
+            const roomCharges = parseFloat(document.getElementById('roomCharges').value) || 0;
+            const total = doctorFees + medicineCharges + roomCharges;
+            document.getElementById('totalAmount').value = total.toFixed(2);
+        }
+    </script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

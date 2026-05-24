@@ -638,3 +638,241 @@ select.form-control-modern {
     cursor: not-allowed;
 }
 
+/* Billing Module Specific Styles */
+.billing-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.billing-card .card-header {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    padding: 20px;
+    font-weight: 600;
+}
+
+.billing-form-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    background: white;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.billing-form-card .card-header {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    padding: 20px;
+    font-weight: 600;
+}
+
+.billing-form-card .card-body {
+    padding: 40px;
+}
+
+/* Charges Section Styling */
+.charges-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #dc3545;
+}
+
+.charges-section h5 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Billing Table Styling */
+.billing-card .table {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.billing-card .table thead {
+    background-color: #343a40;
+    color: white;
+}
+
+.billing-card .table thead th {
+    border-bottom: 2px solid #dee2e6;
+    padding: 15px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.billing-card .table tbody td {
+    padding: 15px;
+    vertical-align: middle;
+}
+
+.billing-card .table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.billing-card .table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Status Badge Styles */
+.badge-status {
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.badge-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.badge-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.badge-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.badge-secondary {
+    background-color: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #d6d8db;
+}
+
+/* Action Buttons in Table */
+.btn-action {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    margin-right: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-action.btn-info {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+}
+
+.btn-action.btn-info:hover {
+    background-color: #138496;
+    color: white;
+}
+
+.btn-action.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-action.btn-danger:hover {
+    background-color: #c82333;
+    color: white;
+}
+
+/* Bill Form Inputs */
+.billing-form-card .form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.billing-form-card .form-group label i {
+    color: #dc3545;
+    font-size: 0.95rem;
+}
+
+.billing-form-card .form-control-modern {
+    padding: 12px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.billing-form-card .form-control-modern:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    background: white;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .billing-card .table {
+        font-size: 0.9rem;
+    }
+
+    .billing-card .table thead th,
+    .billing-card .table tbody td {
+        padding: 10px;
+    }
+
+    .btn-action {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+        margin-bottom: 5px;
+    }
+
+    .billing-form-card .card-body {
+        padding: 20px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .form-row .col-md-4,
+    .form-row .col-md-6 {
+        grid-column: auto;
+    }
+}
+
+/* Print Styles for Bill */
+@media print {
+    .navbar,
+    .btn-action,
+    .form-button-group {
+        display: none;
+    }
+
+    .billing-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .billing-card .card-header {
+        background-color: #f8f9fa;
+        color: #333;
+        border-bottom: 2px solid #ddd;
+    }
+}
+

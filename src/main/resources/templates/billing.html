@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-hospital"></i> HMS
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/patients">
+                        <i class="fas fa-users"></i> Patients
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/doctors">
+                        <i class="fas fa-user-md"></i> Doctors
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/appointments">
+                        <i class="fas fa-calendar-check"></i> Appointments
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/billing">
+                        <i class="fas fa-file-invoice-dollar"></i> Billing
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid mt-4">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">
+                <i class="fas fa-file-invoice-dollar"></i> Billing Management
+            </h2>
+            <div>
+                <a href="/" class="btn btn-secondary mr-2">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <a href="/addBill" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Generate New Bill
+                </a>
+            </div>
+        </div>
+
+        <!-- Bills Table Card -->
+        <div class="card billing-card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-receipt"></i> All Bills
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Bill ID</th>
+                                <th>Patient Name</th>
+                                <th>Doctor Name</th>
+                                <th>Doctor Fees</th>
+                                <th>Medicine Charges</th>
+                                <th>Room Charges</th>
+                                <th>Total Amount</th>
+                                <th>Payment Status</th>
+                                <th>Billing Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="bill : ${bills}">
+                                <td th:text="${bill.billId}">1</td>
+                                <td th:text="${bill.patientName}">John Doe</td>
+                                <td th:text="${bill.doctorName}">Dr. Smith</td>
+                                <td th:text="${'₹' + bill.doctorFees}" class="text-info font-weight-bold">₹5000</td>
+                                <td th:text="${'₹' + bill.medicineCharges}" class="text-info font-weight-bold">₹2000</td>
+                                <td th:text="${'₹' + bill.roomCharges}" class="text-info font-weight-bold">₹3000</td>
+                                <td th:text="${'₹' + bill.totalAmount}" class="text-success font-weight-bold">₹10000</td>
+                                <td>
+                                    <span th:classappend="${bill.paymentStatus == 'PAID' ? 'badge-success' :
+                                                          (bill.paymentStatus == 'PENDING' ? 'badge-warning' :
+                                                          (bill.paymentStatus == 'CANCELLED' ? 'badge-danger' : 'badge-secondary'))}"
+                                          class="badge badge-status"
+                                          th:text="${bill.paymentStatus}">PENDING</span>
+                                </td>
+                                <td th:text="${bill.billingDate}">2024-01-15</td>
+                                <td>
+                                    <a th:href="@{/billing/edit/{id}(id=${bill.billId})}"
+                                       class="btn btn-info btn-sm btn-action">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a th:href="@{/billing/delete/{id}(id=${bill.billId})}"
+                                       class="btn btn-danger btn-sm btn-action"
+                                       onclick="return confirm('Are you sure you want to delete this bill?');">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(bills)}">
+                                <td colspan="10" class="text-center text-muted py-4">
+                                    <i class="fas fa-inbox"></i> No bills found. <a href="/addBill">Create a new bill</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

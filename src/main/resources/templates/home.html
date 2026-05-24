@@ -40,6 +40,10 @@
             color: #ffc107;
         }
 
+        .dashboard-card.billing-card .card-icon {
+            color: #dc3545;
+        }
+
         .dashboard-card .card-title {
             font-size: 1.5rem;
             font-weight: 600;
@@ -119,6 +123,11 @@
                     <i class="fas fa-calendar-check"></i> Appointments
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/billing">
+                    <i class="fas fa-file-invoice-dollar"></i> Billing
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -188,6 +197,27 @@
                         </a>
                         <a href="/addAppointment" class="btn btn-success">
                             <i class="fas fa-plus"></i> Create Appointment
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Billing Management Card -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card dashboard-card billing-card">
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h5 class="card-title">Billing Management</h5>
+                    <p class="card-text">Manage patient billing, generate invoices, and track payments.</p>
+                    <div class="btn-group-vertical" role="group">
+                        <a href="/billing" class="btn btn-danger">
+                            <i class="fas fa-list"></i> View Bills
+                        </a>
+                        <a href="/addBill" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Generate Bill
                         </a>
                     </div>
                 </div>

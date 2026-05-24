@@ -121,8 +121,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="appointmentTime">Appointment Time</label>
-                                <input type="time" class="form-control" id="appointmentTime" th:field="*{timeSlot}" required>
+                                <label for="timeSlot">Time Slot</label>
+                                <input type="time" class="form-control" id="timeSlot" th:field="*{timeSlot}" required>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('timeSlot')}" th:errors="*{timeSlot}">
                                     Appointment Time is required
                                 </div>
@@ -130,10 +130,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="symptomsNotes">Symptoms / Notes</label>
-                        <textarea class="form-control" id="symptomsNotes" rows="3"></textarea>
-                    </div>
 
                     <div class="form-group">
                         <label for="status">Status</label>
