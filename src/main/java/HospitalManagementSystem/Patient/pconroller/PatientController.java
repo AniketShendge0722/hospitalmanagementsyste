@@ -18,10 +18,10 @@ public class PatientController {
     private PatientService patientService;
 
     // Home Page
-    @GetMapping("/")
-    public String homePage() {
-        return "home";
-    }
+//    @GetMapping("/")
+//    public String homePage() {
+//        return "home";
+//    }
 
     // Get All Patients
     @GetMapping("/patients")

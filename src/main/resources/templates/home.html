@@ -95,6 +95,31 @@
             color: #333;
             font-weight: 700;
         }
+        .dashboard-stats-card {
+
+            border: none;
+            border-radius: 12px;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-stats-card:hover {
+
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .dashboard-stats-card h2 {
+
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .dashboard-stats-card h1 {
+
+            font-size: 45px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +162,63 @@
     <h1 class="mb-5">
         <i class="fas fa-hospital-user"></i> Welcome to Hospital Management System
     </h1>
-
+    <!-- Dashboard Statistics Cards -->
+    <div class="row mb-5">
+        <!-- Total Patients -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card dashboard-stats-card bg-primary text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x mb-3"></i>
+                    <h5>Total Patients</h5>
+                    <h2 th:text="${totalPatients}"></h2>
+                </div>
+            </div>
+        </div>
+        <!-- Total Doctors -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card dashboard-stats-card bg-success text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-md fa-2x mb-3"></i>
+                    <h5>Total Doctors</h5>
+                    <h2 th:text="${totalDoctors}"></h2>
+                </div>
+            </div>
+        </div>
+        <!-- Total Appointments -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card dashboard-stats-card bg-warning text-dark">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-check fa-2x mb-3"></i>
+                    <h5>Total Appointments</h5>
+                    <h2 th:text="${totalAppointments}"></h2>
+                </div>
+            </div>
+        </div>
+        <!-- Total Bills -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card dashboard-stats-card bg-danger text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-file-invoice-dollar fa-2x mb-3"></i>
+                    <h5>Total Bills</h5>
+                    <h2 th:text="${totalBills}"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Revenue Card -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card dashboard-stats-card bg-dark text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-indian-rupee-sign fa-2x mb-3"></i>
+                    <h4>Total Revenue</h4>
+                    <h1>
+                        ₹ <span th:text="${totalRevenue}"></span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Dashboard Cards Grid -->
     <div class="row">
         <!-- Patient Management Card -->
